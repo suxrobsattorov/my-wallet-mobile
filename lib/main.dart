@@ -35,6 +35,7 @@ class MyWallet extends StatefulWidget {
 class _MyWalletState extends State<MyWallet> {
   final Expenses _expenses = Expenses();
   DateTime _selectedDate = DateTime.now();
+  bool _showExpenseList = false;
 
   void _showCalendar(BuildContext context) {
     showMonthPicker(
@@ -85,35 +86,84 @@ class _MyWalletState extends State<MyWallet> {
     });
   }
 
-  void deleteExpense(String id) {
+  void _deleteExpense(String id) {
     setState(() {
       _expenses.delete(id);
     });
   }
 
+  Widget _showPortraitItems() {
+    return Column(
+      children: [
+        Header(
+          _selectedDate,
+          _showCalendar,
+          _beforeDate,
+          _afterDate,
+          _expenses.totalExpenseByMonth(_selectedDate),
+        ),
+        Body(
+          _expenses.itemByMonth(_selectedDate),
+          _expenses.totalExpenseByMonth(_selectedDate),
+          _deleteExpense,
+        ),
+      ],
+    );
+  }
+
+  Widget _showLandscapeItems() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Ro'yhatni ko'rsatish",
+            ),
+            Switch(
+              value: _showExpenseList,
+              onChanged: (value) {
+                setState(() {
+                  _showExpenseList = value;
+                });
+              },
+            ),
+          ],
+        ),
+        _showExpenseList
+            ? Body(
+                _expenses.itemByMonth(_selectedDate),
+                _expenses.totalExpenseByMonth(_selectedDate),
+                _deleteExpense,
+              )
+            : Header(
+                _selectedDate,
+                _showCalendar,
+                _beforeDate,
+                _afterDate,
+                _expenses.totalExpenseByMonth(_selectedDate),
+              ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           "My Wallet",
         ),
       ),
-      body: Column(
-        children: [
-          Header(
-            _selectedDate,
-            _showCalendar,
-            _beforeDate,
-            _afterDate,
-            _expenses.totalExpenseByMonth(_selectedDate),
-          ),
-          Body(
-            _expenses.itemByMonth(_selectedDate),
-            _expenses.totalExpenseByMonth(_selectedDate),
-            deleteExpense,
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            isLandscape ? _showLandscapeItems() : _showPortraitItems(),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
