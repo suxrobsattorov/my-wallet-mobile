@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:my_wallet/widgets/expense_item.dart';
 
 import '../models/expense.dart';
 
 class ExpenseList extends StatelessWidget {
   final List<Expense> expenses;
+  final Function deleteExpense;
 
-  ExpenseList(this.expenses);
+  ExpenseList(
+    this.expenses,
+    this.deleteExpense,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -23,35 +27,51 @@ class ExpenseList extends StatelessWidget {
             topRight: Radius.circular(60),
           ),
         ),
-        child: ListView.builder(
-          padding: const EdgeInsets.only(
-            top: 10,
-            right: 5,
-          ),
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.deepOrange,
-              ),
-              title: Text(
-                expenses[index].title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+        child: expenses.isNotEmpty
+            ? ListView.builder(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  right: 5,
+                ),
+                itemBuilder: (context, index) {
+                  return ExpenseItem(
+                    expenses[index].id,
+                    expenses[index].title,
+                    expenses[index].date,
+                    expenses[index].amount,
+                    expenses[index].icon,
+                    ValueKey(expenses[index].id),
+                    deleteExpense,
+                  );
+                },
+                itemCount: expenses.length,
+              )
+            : Padding(
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 50,
+                  left: 50,
+                  right: 50,
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Xarajatlar mavjud emas!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Image.asset(
+                      "assets/images/rocket.png",
+                      fit: BoxFit.cover,
+                    )
+                  ],
                 ),
               ),
-              subtitle: Text(
-                DateFormat("d MMMM, y").format(expenses[index].date),
-                style: const TextStyle(
-                  fontSize: 13,
-                ),
-              ),
-              trailing: Text(
-                "${expenses[index].amount} so'm",
-              ),
-            );
-          },
-          itemCount: expenses.length,
-        ),
       ),
     );
   }

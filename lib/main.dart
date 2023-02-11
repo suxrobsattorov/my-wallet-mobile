@@ -69,13 +69,26 @@ class _MyWalletState extends State<MyWallet> {
     });
   }
 
-  void showAddExpenseWindow(BuildContext context) {
+  void _showAddExpenseWindow(BuildContext context) {
     showModalBottomSheet(
+      isDismissible: false,
       context: context,
       builder: (builder) {
-        return AddExpense();
+        return AddExpense(_addNewExpense);
       },
     );
+  }
+
+  void _addNewExpense(String title, double amount, DateTime date) {
+    setState(() {
+      _expenses.addNewExpense(title, amount, date);
+    });
+  }
+
+  void deleteExpense(String id) {
+    setState(() {
+      _expenses.delete(id);
+    });
   }
 
   @override
@@ -88,13 +101,23 @@ class _MyWalletState extends State<MyWallet> {
       ),
       body: Column(
         children: [
-          Header(_selectedDate, _showCalendar, _beforeDate, _afterDate),
-          Body(_expenses.expenses),
+          Header(
+            _selectedDate,
+            _showCalendar,
+            _beforeDate,
+            _afterDate,
+            _expenses.totalExpenseByMonth(_selectedDate),
+          ),
+          Body(
+            _expenses.itemByMonth(_selectedDate),
+            _expenses.totalExpenseByMonth(_selectedDate),
+            deleteExpense,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showAddExpenseWindow(context);
+          _showAddExpenseWindow(context);
         },
         child: const Icon(
           Icons.add,

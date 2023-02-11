@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Header extends StatelessWidget {
+  final double totalByMonth;
   final DateTime selectedDate;
   final Function showCalendar;
   final Function() beforeDate;
@@ -12,6 +13,7 @@ class Header extends StatelessWidget {
     this.showCalendar,
     this.beforeDate,
     this.afterDate,
+    this.totalByMonth,
   );
 
   @override
@@ -63,13 +65,13 @@ class Header extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    "5,450,000",
-                    style: TextStyle(
+                    totalByMonth.toStringAsFixed(0),
+                    style: const TextStyle(
                       fontSize: 44,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
+                  const Text(
                     "so'm",
                     style: TextStyle(
                       fontSize: 20,

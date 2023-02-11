@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProgressBar extends StatelessWidget {
+  final double totalInterestByMonth;
+
+  ProgressBar(this.totalInterestByMonth);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +17,7 @@ class ProgressBar extends StatelessWidget {
       ),
       child: FractionallySizedBox(
         heightFactor: 2,
-        widthFactor: 0.5,
+        widthFactor: totalInterestByMonth / 100,
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(

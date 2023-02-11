@@ -1,7 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:my_wallet/widgets/progress_bar.dart';
 
-class Budget extends StatelessWidget {
+import 'edit_monthly_budget.dart';
+
+class Budget extends StatefulWidget {
+  final double _totalExpenseByMonth;
+
+  Budget(this._totalExpenseByMonth);
+
+  @override
+  _BudgetState createState() => _BudgetState();
+}
+
+class _BudgetState extends State<Budget> {
+  double _limit = 1000000;
+
+  void _showMonthlyBudgetWindow(BuildContext context) {
+    showModalBottomSheet(
+        isDismissible: false,
+        context: context,
+        builder: (builder) {
+          return EditMonthlyBudget(_changeBudgetLimit, _limit);
+        });
+  }
+
+  void _changeBudgetLimit(double amount) {
+    setState(() {
+      _limit = amount;
+    });
+  }
+
+  double _totalInterestByMonth(double limit) {
+    double result = (widget._totalExpenseByMonth * 100) / limit;
+
+    if (result > 100) return 100;
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,14 +64,16 @@ class Budget extends StatelessWidget {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      _showMonthlyBudgetWindow(context);
+                    },
                     icon: const Icon(
                       Icons.edit,
                       size: 20,
                     ),
                     label: Text(
-                      "1,000,000 so'm",
-                      style: TextStyle(
+                      "${_limit.toStringAsFixed(0)} so'm",
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),
@@ -44,14 +81,14 @@ class Budget extends StatelessWidget {
                 ],
               ),
               Text(
-                "4.9%",
-                style: TextStyle(
+                "${_totalInterestByMonth(_limit).toStringAsFixed(1)}%",
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
             ],
           ),
-          ProgressBar(),
+          ProgressBar(_totalInterestByMonth(_limit)),
         ],
       ),
     );
