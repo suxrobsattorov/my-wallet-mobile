@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_month_picker/flutter_month_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,6 +74,7 @@ class _MyWalletState extends State<MyWallet> {
 
   void _showAddExpenseWindow(BuildContext context) {
     showModalBottomSheet(
+      isScrollControlled: true,
       isDismissible: false,
       context: context,
       builder: (builder) {
@@ -92,26 +95,34 @@ class _MyWalletState extends State<MyWallet> {
     });
   }
 
-  Widget _showPortraitItems() {
+  Widget _showPortraitItems(deviceHeight, deviceWidth) {
     return Column(
       children: [
-        Header(
-          _selectedDate,
-          _showCalendar,
-          _beforeDate,
-          _afterDate,
-          _expenses.totalExpenseByMonth(_selectedDate),
+        Container(
+          width: deviceWidth,
+          height: deviceHeight > 640 ? deviceHeight * 0.25 : deviceHeight * 0.3,
+          child: Header(
+            _selectedDate,
+            _showCalendar,
+            _beforeDate,
+            _afterDate,
+            _expenses.totalExpenseByMonth(_selectedDate),
+          ),
         ),
-        Body(
-          _expenses.itemByMonth(_selectedDate),
-          _expenses.totalExpenseByMonth(_selectedDate),
-          _deleteExpense,
+        Container(
+          width: deviceWidth,
+          height: deviceHeight > 640 ? deviceHeight * 0.75 : deviceHeight * 0.7,
+          child: Body(
+            _expenses.itemByMonth(_selectedDate),
+            _expenses.totalExpenseByMonth(_selectedDate),
+            _deleteExpense,
+          ),
         ),
       ],
     );
   }
 
-  Widget _showLandscapeItems() {
+  Widget _showLandscapeItems(deviceHeight, deviceWidth) {
     return Column(
       children: [
         Row(
@@ -120,7 +131,7 @@ class _MyWalletState extends State<MyWallet> {
             const Text(
               "Ro'yhatni ko'rsatish",
             ),
-            Switch(
+            Switch.adaptive(
               value: _showExpenseList,
               onChanged: (value) {
                 setState(() {
@@ -131,17 +142,25 @@ class _MyWalletState extends State<MyWallet> {
           ],
         ),
         _showExpenseList
-            ? Body(
-                _expenses.itemByMonth(_selectedDate),
-                _expenses.totalExpenseByMonth(_selectedDate),
-                _deleteExpense,
+            ? Container(
+                width: deviceWidth,
+                height: deviceHeight * 0.85,
+                child: Body(
+                  _expenses.itemByMonth(_selectedDate),
+                  _expenses.totalExpenseByMonth(_selectedDate),
+                  _deleteExpense,
+                ),
               )
-            : Header(
-                _selectedDate,
-                _showCalendar,
-                _beforeDate,
-                _afterDate,
-                _expenses.totalExpenseByMonth(_selectedDate),
+            : Container(
+                width: deviceWidth,
+                height: deviceHeight * 0.85,
+                child: Header(
+                  _selectedDate,
+                  _showCalendar,
+                  _beforeDate,
+                  _afterDate,
+                  _expenses.totalExpenseByMonth(_selectedDate),
+                ),
               ),
       ],
     );
@@ -151,28 +170,50 @@ class _MyWalletState extends State<MyWallet> {
   Widget build(BuildContext context) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      title: const Text(
+        "My Wallet",
+      ),
+      actions: Platform.isIOS
+          ? [
+              IconButton(
+                onPressed: () {
+                  _showAddExpenseWindow(context);
+                },
+                icon: const Icon(
+                  Icons.add,
+                ),
+              ),
+            ]
+          : [],
+    );
+    final topPadding = MediaQuery.of(context).padding.top;
+    final deviceHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        topPadding;
+    final deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "My Wallet",
-        ),
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            isLandscape ? _showLandscapeItems() : _showPortraitItems(),
+            isLandscape
+                ? _showLandscapeItems(deviceHeight, deviceWidth)
+                : _showPortraitItems(deviceHeight, deviceWidth),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddExpenseWindow(context);
-        },
-        child: const Icon(
-          Icons.add,
-        ),
-      ),
+      floatingActionButton: Platform.isAndroid
+          ? FloatingActionButton(
+              onPressed: () {
+                _showAddExpenseWindow(context);
+              },
+              child: const Icon(
+                Icons.add,
+              ),
+            )
+          : Container(),
     );
   }
 }

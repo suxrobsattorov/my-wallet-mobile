@@ -39,58 +39,62 @@ class _BudgetState extends State<Budget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      width: double.infinity,
-      height: 572.429,
-      decoration: const BoxDecoration(
-        color: Color.fromRGBO(239, 240, 250, 1),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(60),
-          topRight: Radius.circular(60),
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          width: double.infinity,
+          height: constraints.maxHeight,
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(239, 240, 250, 1),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(60),
+              topRight: Radius.circular(60),
+            ),
+          ),
+          child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Oylik byudjet: ",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  TextButton.icon(
-                    onPressed: () {
-                      _showMonthlyBudgetWindow(context);
-                    },
-                    icon: const Icon(
-                      Icons.edit,
-                      size: 20,
-                    ),
-                    label: Text(
-                      "${_limit.toStringAsFixed(0)} so'm",
-                      style: const TextStyle(
-                        fontSize: 16,
+                  Row(
+                    children: [
+                      const Text(
+                        "Oylik byudjet: ",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
+                      TextButton.icon(
+                        onPressed: () {
+                          _showMonthlyBudgetWindow(context);
+                        },
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 20,
+                        ),
+                        label: Text(
+                          "${_limit.toStringAsFixed(0)} so'm",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "${_totalInterestByMonth(_limit).toStringAsFixed(1)}%",
+                    style: const TextStyle(
+                      fontSize: 16,
                     ),
                   ),
                 ],
               ),
-              Text(
-                "${_totalInterestByMonth(_limit).toStringAsFixed(1)}%",
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
+              ProgressBar(_totalInterestByMonth(_limit)),
             ],
           ),
-          ProgressBar(_totalInterestByMonth(_limit)),
-        ],
-      ),
+        );
+      },
     );
   }
 }
