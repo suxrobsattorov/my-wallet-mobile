@@ -45,32 +45,34 @@ class ExpenseList extends StatelessWidget {
                   },
                   itemCount: expenses.length,
                 )
-              : Padding(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    bottom: 50,
-                    left: 50,
-                    right: 50,
-                  ),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Xarajatlar mavjud emas!",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+              : SingleChildScrollView(
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 50,
+                      left: 50,
+                      right: 50,
+                    ),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Xarajatlar mavjud emas!",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Image.asset(
-                        "assets/images/rocket.png",
-                        fit: BoxFit.cover,
-                      )
-                    ],
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Image.asset(
+                          "assets/images/rocket.png",
+                          fit: BoxFit.cover,
+                        )
+                      ],
+                    ),
                   ),
-                ),
+              ),
         ),
       );
     });
