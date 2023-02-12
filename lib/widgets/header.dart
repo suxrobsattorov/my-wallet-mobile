@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class Header extends StatelessWidget {
@@ -8,13 +9,9 @@ class Header extends StatelessWidget {
   final Function() beforeDate;
   final Function() afterDate;
 
-  Header(
-    this.selectedDate,
-    this.showCalendar,
-    this.beforeDate,
-    this.afterDate,
-    this.totalByMonth,
-  );
+  const Header(this.selectedDate, this.showCalendar, this.beforeDate,
+      this.afterDate, this.totalByMonth,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {

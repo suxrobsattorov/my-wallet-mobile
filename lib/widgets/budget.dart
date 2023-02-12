@@ -6,9 +6,10 @@ import 'edit_monthly_budget.dart';
 class Budget extends StatefulWidget {
   final double _totalExpenseByMonth;
 
-  Budget(this._totalExpenseByMonth);
+  const Budget(this._totalExpenseByMonth, {super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _BudgetState createState() => _BudgetState();
 }
 

@@ -17,7 +17,7 @@ class Expense {
 }
 
 class Expenses {
-  List<Expense> _expenses = [
+  final List<Expense> _expenses = [
     Expense(id: "1", title: "Tarvuz", date: DateTime.now(), amount: 15000),
     Expense(id: "2", title: "Krasofka", date: DateTime.now(), amount: 200000),
     Expense(id: "3", title: "Kurs", date: DateTime.now(), amount: 2000000),

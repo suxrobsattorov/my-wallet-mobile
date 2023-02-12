@@ -7,10 +7,11 @@ class ExpenseItem extends StatelessWidget {
   final DateTime date;
   final double amount;
   final IconData icon;
+  @override
   final Key key;
   final Function deleteExpense;
 
-  ExpenseItem(
+  const ExpenseItem(
     this.id,
     this.title,
     this.date,
@@ -49,7 +50,11 @@ class ExpenseItem extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: const Color.fromRGBO(239, 240, 250, 1),
-          child: Icon(icon, color: Color.fromRGBO(124, 125, 135, 1),size: 26,),
+          child: Icon(
+            icon,
+            color: const Color.fromRGBO(124, 125, 135, 1),
+            size: 26,
+          ),
         ),
         title: Text(
           title,

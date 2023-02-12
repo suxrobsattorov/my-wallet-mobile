@@ -8,7 +8,7 @@ class AdaptiveButton extends StatelessWidget {
   final Function() handler;
   final bool? filled;
 
-  AdaptiveButton({
+  const AdaptiveButton({
     Key? key,
     this.filled = false,
     required this.text,

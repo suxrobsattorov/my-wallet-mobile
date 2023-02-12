@@ -7,10 +7,7 @@ class ExpenseList extends StatelessWidget {
   final List<Expense> expenses;
   final Function deleteExpense;
 
-  ExpenseList(
-    this.expenses,
-    this.deleteExpense,
-  );
+  const ExpenseList(this.expenses, this.deleteExpense, {super.key});
 
   @override
   Widget build(BuildContext context) {

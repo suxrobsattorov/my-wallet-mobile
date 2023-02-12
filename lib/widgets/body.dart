@@ -9,11 +9,8 @@ class Body extends StatelessWidget {
   final double totalExpenseByMonth;
   final Function deleteExpense;
 
-  Body(
-    this.expenses,
-    this.totalExpenseByMonth,
-    this.deleteExpense,
-  );
+  const Body(this.expenses, this.totalExpenseByMonth, this.deleteExpense,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {

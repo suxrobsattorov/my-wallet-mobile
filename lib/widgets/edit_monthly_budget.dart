@@ -5,9 +5,10 @@ class EditMonthlyBudget extends StatefulWidget {
   final Function changeBudgetLimit;
   final double limit;
 
-  EditMonthlyBudget(this.changeBudgetLimit, this.limit);
+  const EditMonthlyBudget(this.changeBudgetLimit, this.limit, {super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditMonthlyBudgetState createState() => _EditMonthlyBudgetState();
 }
 

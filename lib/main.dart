@@ -9,11 +9,11 @@ import 'package:my_wallet/widgets/body.dart';
 import 'package:my_wallet/widgets/header.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +23,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
         textTheme: GoogleFonts.montserratTextTheme(),
       ),
-      home: MyWallet(),
+      home: const MyWallet(),
     );
   }
 }
 
 class MyWallet extends StatefulWidget {
+  const MyWallet({super.key});
+
   @override
   // ignore: library_private_types_in_public_api
   _MyWalletState createState() => _MyWalletState();
@@ -98,7 +100,7 @@ class _MyWalletState extends State<MyWallet> {
   Widget _showPortraitItems(deviceHeight, deviceWidth) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           width: deviceWidth,
           height: deviceHeight > 640 ? deviceHeight * 0.25 : deviceHeight * 0.3,
           child: Header(
@@ -109,7 +111,7 @@ class _MyWalletState extends State<MyWallet> {
             _expenses.totalExpenseByMonth(_selectedDate),
           ),
         ),
-        Container(
+        SizedBox(
           width: deviceWidth,
           height: deviceHeight > 640 ? deviceHeight * 0.75 : deviceHeight * 0.7,
           child: Body(
@@ -142,7 +144,7 @@ class _MyWalletState extends State<MyWallet> {
           ],
         ),
         _showExpenseList
-            ? Container(
+            ? SizedBox(
                 width: deviceWidth,
                 height: deviceHeight * 0.85,
                 child: Body(
@@ -151,7 +153,7 @@ class _MyWalletState extends State<MyWallet> {
                   _deleteExpense,
                 ),
               )
-            : Container(
+            : SizedBox(
                 width: deviceWidth,
                 height: deviceHeight * 0.85,
                 child: Header(

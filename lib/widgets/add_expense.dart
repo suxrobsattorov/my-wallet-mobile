@@ -8,7 +8,7 @@ import 'package:my_wallet/widgets/adaptive_textfield.dart';
 class AddExpense extends StatefulWidget {
   final Function addNewExpense;
 
-  AddExpense(this.addNewExpense);
+  const AddExpense(this.addNewExpense, {super.key});
 
   @override
   // ignore: library_private_types_in_public_api

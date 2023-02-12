@@ -8,7 +8,7 @@ class AdaptiveTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
 
-  AdaptiveTextField({
+  const AdaptiveTextField({
     Key? key,
     this.keyboardType,
     required this.label,

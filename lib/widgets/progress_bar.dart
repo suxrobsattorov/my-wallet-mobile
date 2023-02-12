@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProgressBar extends StatelessWidget {
   final double totalInterestByMonth;
 
-  ProgressBar(this.totalInterestByMonth);
+  const ProgressBar(this.totalInterestByMonth, {super.key});
 
   @override
   Widget build(BuildContext context) {
